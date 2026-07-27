@@ -35,9 +35,9 @@ function Posts() {
       ) : (
         <ul>
           {posts.map((post) => (
-            <li>
-              <PostCard key={post.id} post={post} />
-            </li>
+            <div key={post.id}>
+              <PostCard post={post} />
+            </div>
           ))}
         </ul>
       )}

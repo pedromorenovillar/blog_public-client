@@ -2,10 +2,9 @@ import RootLayout from "../pages/RootLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import EditPost from "../pages/EditPost";
 import NewPost from "../pages/NewPost";
 import Posts from "../pages/Posts";
-import ViewPost from "../pages/ViewPost";
+import SinglePost from "../pages/SinglePost";
 
 const routes = [
   {
@@ -31,7 +30,11 @@ const routes = [
       {
         path: "posts/",
         element: <Posts />,
-      }
+      },
+      {
+        path: "posts/:id/:slug",
+        element: <SinglePost />,
+      },
     ],
   },
 ];

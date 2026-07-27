@@ -4,7 +4,7 @@ function PostCard({ post }) {
   return (
     <>
       <li>
-        <Link to={`/posts/${post.id}`}>
+        <Link to={`/posts/${post.id}/${post.slug}`}>
           <h2>{post.title}</h2>
         </Link>
         <h3>

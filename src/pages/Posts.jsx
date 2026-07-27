@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPublishedPosts } from "../api/posts";
-import { Link } from "react-router-dom"; // <- Client side nav without reloading
+import PostCard from "../components/posts/PostCard";
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -35,10 +35,8 @@ function Posts() {
       ) : (
         <ul>
           {posts.map((post) => (
-            <li key={post.id}>
-              <Link to={`/posts/${post.id}`}>{post.title}</Link>
-              {post.content.slice(0, 200)}
-              {new Date(post.createdAt).toLocaleDateString()}
+            <li>
+              <PostCard key={post.id} post={post} />
             </li>
           ))}
         </ul>

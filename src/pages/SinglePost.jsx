@@ -27,8 +27,6 @@ function SinglePost() {
   if (!post) {
     return <p>Loading...</p>;
   }
-  console.log({ post });
-  console.dir(post);
   return (
     <>
       <h2>

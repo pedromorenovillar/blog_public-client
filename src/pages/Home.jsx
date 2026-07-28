@@ -1,8 +1,11 @@
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
+
 function Home() {
+  const { user, isAuthenticated } = useContext(AuthContext);
   return (
-    <>
-      <h1>Home</h1>
-    </>
+    <>{isAuthenticated ? <h1>Hello, {user.firstname}</h1> : <h1>Home</h1>}</>
   );
 }
 

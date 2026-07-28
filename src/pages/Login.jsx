@@ -5,10 +5,9 @@ import { AuthContext } from "../context/AuthContext";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, login } = useContext(AuthContext); // use login from context
+  const { login } = useContext(AuthContext); // use login from context
   const navigate = useNavigate();
 
-  
   async function handleSubmit(event) {
     event.preventDefault();
     try {

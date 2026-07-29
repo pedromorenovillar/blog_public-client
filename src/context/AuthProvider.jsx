@@ -1,5 +1,5 @@
 import { AuthContext } from "./AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Accept children to wrap app and return them later
@@ -8,6 +8,22 @@ export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const isAuthenticated = !!user; // converts Object to boolean
+
+  // Consider wrapping fetchCurrentUser in useCallback later
+  async function fetchCurrentUser(token) {
+    const userResponse = await fetch(`${API_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!userResponse.ok) {
+      throw new Error("Failed to get user");
+    }
+    // userResponse is a Response object that needs parsing
+    const userData = await userResponse.json();
+    // Save user
+    setUser(userData);
+  }
 
   async function login(email, password) {
     // Send the request
@@ -29,31 +45,14 @@ export const AuthProvider = ({ children }) => {
     // Save the access token
     setAccessToken(accessToken);
     // Fetch user
-    const userResponse = await fetch(`${API_URL}/users/me`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    if (!userResponse.ok) {
-      throw new Error("Failed to get user");
-    }
-    // userResponse is a Response object that needs parsing
-    const userData = await userResponse.json();
-    // Save user
-    setUser(userData);
+    await fetchCurrentUser(accessToken);
     return;
   }
 
   async function logout() {
     const response = await fetch(`${API_URL}/users/logout`, {
       method: "POST",
-      credentials: "include",  // For request that require refresh token
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
+      credentials: "include", // For request that require refresh token
     });
     if (!response.ok) {
       throw new Error("Failed to log out");
@@ -65,18 +64,44 @@ export const AuthProvider = ({ children }) => {
     return;
   }
 
-  // useEffect
-  // checks whether a refresh token cookie exists (by trying POST /users/token),
-  // gets a new access token,
-  // calls /users/me,
-  // restores the session.
+  useEffect(() => {
+    async function restoreSession() {
+      try {
+        // Check if refresh token exists (by trying POST /users/token)
+        const tokenResponse = await fetch(`${API_URL}/users/token`, {
+          method: "POST",
+          credentials: "include", // For request that require refresh token
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!tokenResponse.ok) {
+          throw new Error("Failed to get refresh token");
+        }
+        // Get new access token
+        // tokenResponse is a Response object that needs parsing
+        const newToken = await tokenResponse.json();
+        // Save token
+        setAccessToken(newToken.accessToken);
+        // Call /users/me
+        await fetchCurrentUser(newToken.accessToken);
+      } catch (error) {
+        setUser(null);
+        setAccessToken(null);
+        console.log("No active session");
+      } finally {
+        setLoading(false);
+      }
+    }
+    restoreSession();
+  }, []);
 
   return (
     <AuthContext.Provider
       value={{
         user,
         isAuthenticated,
-        // loading,
+        loading,
         login,
         logout,
       }}
@@ -85,3 +110,11 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+
+// Login.
+// Refresh the browser.
+// Check if user is restored.
+// Logout.
+// Refresh again.
+// Confirm you stay logged out.

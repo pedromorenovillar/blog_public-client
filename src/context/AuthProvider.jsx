@@ -64,6 +64,22 @@ export const AuthProvider = ({ children }) => {
     return;
   }
 
+  async function register(user) {
+    const response = await fetch(`${API_URL}/users/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to register user");
+    }
+    const data = await response.json()
+
+    return data;
+  }
+
   useEffect(() => {
     async function restoreSession() {
       try {
@@ -88,7 +104,7 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
         setUser(null);
         setAccessToken(null);
-        console.error(error)
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -104,6 +120,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         login,
         logout,
+        register,
       }}
     >
       {children}

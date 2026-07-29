@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const isAuthenticated = !!user; // converts Object to boolean
 
-  // Consider wrapping fetchCurrentUser in useCallback later
+  // TODO: maybe wrap fetchCurrentUser in useCallback
   async function fetchCurrentUser(token) {
     const userResponse = await fetch(`${API_URL}/users/me`, {
       headers: {
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
         setUser(null);
         setAccessToken(null);
-        console.log("No active session");
+        console.error(error)
       } finally {
         setLoading(false);
       }
@@ -110,11 +110,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
-
-// Login.
-// Refresh the browser.
-// Check if user is restored.
-// Logout.
-// Refresh again.
-// Confirm you stay logged out.

@@ -91,6 +91,12 @@ export const AuthProvider = ({ children }) => {
             "Content-Type": "application/json",
           },
         });
+        // User not logged in
+        if (tokenResponse.status === 401) {
+          setUser(null);
+          setAccessToken(null);
+          return;
+        }
         if (!tokenResponse.ok) {
           throw new Error("Failed to get refresh token");
         }

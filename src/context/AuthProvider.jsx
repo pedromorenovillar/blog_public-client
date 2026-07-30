@@ -36,7 +36,8 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify({ email, password }),
     });
     if (!loginResponse.ok) {
-      throw new Error("Failed to log in");
+      const data = await loginResponse.json();
+      throw data;
     }
     // loginResponse is a Response object that needs parsing
     const data = await loginResponse.json();
@@ -75,7 +76,7 @@ export const AuthProvider = ({ children }) => {
     if (!response.ok) {
       throw new Error("Failed to register user");
     }
-    const data = await response.json()
+    const data = await response.json();
 
     return data;
   }

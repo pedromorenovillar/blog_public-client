@@ -6,7 +6,13 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(AuthContext); // use login from context
+  const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
+
+  // Convert array to object
+  const fieldErrors = Object.fromEntries(
+    errors.map(({ path, msg }) => [path, msg]),
+  );
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -14,7 +20,11 @@ function Login() {
       await login(email, password);
       navigate("/");
     } catch (error) {
-      console.error(error);
+      if (error.errors) {
+        setErrors(error.errors);
+      } else {
+        setErrors([{ msg: error.message }]);
+      }
     }
     return;
   }
@@ -25,7 +35,6 @@ function Login() {
   function handlePassword(event) {
     setPassword(event.target.value);
   }
-
   return (
     <>
       <h1>Login</h1>
@@ -38,6 +47,7 @@ function Login() {
           value={email}
           onChange={handleEmail}
         />
+        {fieldErrors.email && <p>{fieldErrors.email}</p>}
         <label htmlFor="password">Password</label>
         <input
           type="password"
@@ -46,6 +56,7 @@ function Login() {
           value={password}
           onChange={handlePassword}
         />
+        {fieldErrors.password && <p>{fieldErrors.password}</p>}
         <button type="submit">Submit</button>
       </form>
     </>

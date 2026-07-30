@@ -9,7 +9,7 @@ function Login() {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
-  // Convert array to object
+  // Convert errors array to object
   const fieldErrors = Object.fromEntries(
     errors.map(({ path, msg }) => [path, msg]),
   );

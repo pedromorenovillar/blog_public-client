@@ -35,12 +35,11 @@ export const AuthProvider = ({ children }) => {
       },
       body: JSON.stringify({ email, password }),
     });
-    if (!loginResponse.ok) {
-      const data = await loginResponse.json();
-      throw data;
-    }
     // loginResponse is a Response object that needs parsing
     const data = await loginResponse.json();
+    if (!loginResponse.ok) {
+      throw data;
+    }
     // Read the JSON
     const accessToken = data.accessToken;
     // Save the access token
@@ -73,10 +72,10 @@ export const AuthProvider = ({ children }) => {
       },
       body: JSON.stringify(user),
     });
-    if (!response.ok) {
-      throw new Error("Failed to register user");
-    }
     const data = await response.json();
+    if (!response.ok) {
+      throw data;
+    }
 
     return data;
   }

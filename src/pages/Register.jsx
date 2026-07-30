@@ -12,15 +12,25 @@ function Register() {
   });
   const { register } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
+
+  // Convert errors array to object
+  const fieldErrors = Object.fromEntries(
+    errors.map(({ path, msg }) => [path, msg]),
+  );
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setErrors([]); // Clear old errors
     try {
       await register(user);
-      console.log("user registered successfully!");
       navigate("/users/login");
     } catch (error) {
-      console.error(error);
+      if (error.errors) {
+        setErrors(error.errors);
+      } else {
+        setErrors([{ msg: error.message }]);
+      }
     }
     return;
   }
@@ -46,6 +56,7 @@ function Register() {
           value={user.firstName}
           onChange={handleUser}
         />
+        {fieldErrors.firstName && <p>{fieldErrors.firstName}</p>}
         <label htmlFor="lastName">Last name</label>
         <input
           type="text"
@@ -54,6 +65,7 @@ function Register() {
           value={user.lastName}
           onChange={handleUser}
         />
+        {fieldErrors.lastName && <p>{fieldErrors.lastName}</p>}
         <label htmlFor="email">Email</label>
         <input
           type="email"
@@ -62,6 +74,7 @@ function Register() {
           value={user.email}
           onChange={handleUser}
         />
+        {fieldErrors.email && <p>{fieldErrors.email}</p>}
         <label htmlFor="password">Password</label>
         <input
           type="password"
@@ -70,6 +83,7 @@ function Register() {
           value={user.password}
           onChange={handleUser}
         />
+        {fieldErrors.password && <p>{fieldErrors.password}</p>}
         <label htmlFor="passwordConfirm">Password confirmation</label>
         <input
           type="password"
@@ -78,6 +92,7 @@ function Register() {
           value={user.passwordConfirm}
           onChange={handleUser}
         />
+        {fieldErrors.passwordConfirm && <p>{fieldErrors.passwordConfirm}</p>}
         <button type="submit">Submit</button>
       </form>
     </>

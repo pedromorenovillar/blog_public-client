@@ -42,6 +42,10 @@ function Register() {
       ...prevUser,
       [name]: value,
     }));
+
+    setErrors((prevErrors) => {
+      return prevErrors.filter((error) => error.path !== name);
+    });
   }
 
   return (

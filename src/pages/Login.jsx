@@ -31,9 +31,17 @@ function Login() {
 
   function handleEmail(event) {
     setEmail(event.target.value);
+
+    setErrors((prevErrors) => {
+      return prevErrors.filter((error) => error.path !== "email");
+    });
   }
   function handlePassword(event) {
     setPassword(event.target.value);
+
+    setErrors((prevErrors) => {
+      return prevErrors.filter((error) => error.path !== "password");
+    });
   }
   return (
     <>

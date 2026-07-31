@@ -52,3 +52,14 @@ export async function loginUser(email, password) {
   }
   return data;
 }
+
+export async function logoutUser() {
+  const response = await fetch(`${API_URL}/users/logout`, {
+    method: "POST",
+    credentials: "include", // For request that require refresh token
+  });
+  if (!response.ok) {
+    throw new Error("Failed to log out");
+  }
+  return
+}

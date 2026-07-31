@@ -1,7 +1,7 @@
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
-import { register, loginUser, fetchCurrentUser } from "../api/auth";
+import { register, loginUser, fetchCurrentUser, logoutUser } from "../api/auth";
 
 // Accept children to wrap app and return them later
 export const AuthProvider = ({ children }) => {
@@ -25,13 +25,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   async function logout() {
-    const response = await fetch(`${API_URL}/users/logout`, {
-      method: "POST",
-      credentials: "include", // For request that require refresh token
-    });
-    if (!response.ok) {
-      throw new Error("Failed to log out");
-    }
+    await logoutUser()
     // Clear user
     setUser(null);
     // Clear accesToken

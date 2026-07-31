@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
 function Login() {
@@ -8,6 +8,7 @@ function Login() {
   const { login } = useContext(AuthContext); // use login from context
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Convert errors array to object
   const fieldErrors = Object.fromEntries(
@@ -18,7 +19,11 @@ function Login() {
     event.preventDefault();
     try {
       await login(email, password);
-      navigate("/");
+      if (location.state) {
+        navigate(location.state);
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       if (error.errors) {
         setErrors(error.errors);

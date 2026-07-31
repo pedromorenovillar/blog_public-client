@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getSinglePost } from "../api/posts";
 import { AuthContext } from "../context/AuthContext";
 
@@ -7,8 +7,16 @@ function SinglePost() {
   const [post, setPost] = useState();
   const [error, setError] = useState(null);
   const { user, isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { id } = useParams();
+
+  function handleClick() {
+    console.log("button clicked");
+    navigate("/users/login", { state: location });
+  }
+
   useEffect(() => {
     async function loadPost(id) {
       try {
@@ -54,7 +62,7 @@ function SinglePost() {
       {isAuthenticated ? (
         <button>New comment</button>
       ) : (
-        <button>Log in to comment</button>
+        <button onClick={handleClick}>Log in to comment</button>
       )}
     </>
   );

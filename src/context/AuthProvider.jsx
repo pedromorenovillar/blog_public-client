@@ -1,7 +1,7 @@
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
-import { register } from "../api/auth";
+import { register, fetchCurrentUser } from "../api/auth";
 
 // Accept children to wrap app and return them later
 export const AuthProvider = ({ children }) => {
@@ -10,21 +10,8 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const isAuthenticated = !!user; // converts Object to boolean
 
-  // TODO: maybe wrap fetchCurrentUser in useCallback
-  async function fetchCurrentUser(token) {
-    const userResponse = await fetch(`${API_URL}/users/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!userResponse.ok) {
-      throw new Error("Failed to get user");
-    }
-    // userResponse is a Response object that needs parsing
-    const userData = await userResponse.json();
-    // Save user
-    setUser(userData);
-  }
+
+  
 
   async function login(email, password) {
     // Send the request
@@ -46,7 +33,9 @@ export const AuthProvider = ({ children }) => {
     // Save the access token
     setAccessToken(accessToken);
     // Fetch user
-    await fetchCurrentUser(accessToken);
+    const currentUser = await fetchCurrentUser(accessToken);
+    
+    setUser(currentUser)
     return;
   }
 

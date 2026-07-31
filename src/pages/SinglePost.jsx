@@ -18,6 +18,11 @@ function SinglePost() {
     navigate("/users/login", { state: location });
   }
 
+  async function reloadPost() {
+    const updatedPost = await getSinglePost(id);
+    setPost(updatedPost);
+  }
+
   useEffect(() => {
     async function loadPost(id) {
       try {
@@ -61,7 +66,7 @@ function SinglePost() {
         ))
       )}
       {isAuthenticated ? (
-        <CommentForm authorId={user.id} postId={post.id} />
+        <CommentForm postId={post.id} onCommentCreated={reloadPost} />
       ) : (
         <button onClick={handleClick}>Log in to comment</button>
       )}

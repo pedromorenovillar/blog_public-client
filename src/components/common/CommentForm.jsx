@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { addComment } from "../../api/comments";
+import { AuthContext } from "../../context/AuthContext";
 
-function CommentForm({ authorId, postId }) {
+function CommentForm({ authorId, postId, onCommentCreated }) {
   const [content, setContent] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [errors, setErrors] = useState([]);
+  const { accessToken } = useContext(AuthContext);
 
   // Convert errors array to object
   const fieldErrors = Object.fromEntries(
@@ -19,14 +22,12 @@ function CommentForm({ authorId, postId }) {
     });
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     try {
-      console.log("form submits the following: ");
-      console.log({ content });
-      console.log({ authorId });
-      console.log({ postId });
+      await addComment(postId, content, accessToken);
       setContent("");
+      await onCommentCreated();
     } catch (error) {
       if (error.errors) {
         setErrors(error.errors);
@@ -41,7 +42,6 @@ function CommentForm({ authorId, postId }) {
     <>
       <form onSubmit={handleSubmit}>
         {fieldErrors.content && <p>{fieldErrors.content}</p>}
-        <input type="hidden" name="authorId" value={authorId} />
         <input type="hidden" name="postId" value={postId} />
         <textarea
           name="content"

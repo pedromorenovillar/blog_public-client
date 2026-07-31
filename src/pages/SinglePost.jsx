@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getSinglePost } from "../api/posts";
 import { AuthContext } from "../context/AuthContext";
+import CommentForm from "../components/common/CommentForm";
 
 function SinglePost() {
   const [post, setPost] = useState();
@@ -60,7 +61,7 @@ function SinglePost() {
         ))
       )}
       {isAuthenticated ? (
-        <button>New comment</button>
+        <CommentForm authorId={user.id} postId={post.id} />
       ) : (
         <button onClick={handleClick}>Log in to comment</button>
       )}

@@ -1,6 +1,3 @@
-// logout()
-// refreshAccessToken() (POST /users/token)
-
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function register(user) {
@@ -61,5 +58,26 @@ export async function logoutUser() {
   if (!response.ok) {
     throw new Error("Failed to log out");
   }
-  return
+  return;
+}
+
+export async function refreshAccessToken() {
+  // Check if refresh token exists (by trying POST /users/token)
+  const tokenResponse = await fetch(`${API_URL}/users/token`, {
+    method: "POST",
+    credentials: "include", // For request that require refresh token
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  // User not logged in
+  if (tokenResponse.status === 401) {
+    return null;
+  }
+  if (!tokenResponse.ok) {
+    throw new Error("Failed to get refresh token");
+  }
+  // tokenResponse is a Response object that needs parsing
+  const data = await tokenResponse.json();
+  return data;
 }

@@ -1,7 +1,12 @@
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
-const API_URL = import.meta.env.VITE_API_URL;
-import { register, loginUser, fetchCurrentUser, logoutUser } from "../api/auth";
+import {
+  register,
+  loginUser,
+  fetchCurrentUser,
+  logoutUser,
+  refreshAccessToken,
+} from "../api/auth";
 
 // Accept children to wrap app and return them later
 export const AuthProvider = ({ children }) => {
@@ -10,22 +15,21 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const isAuthenticated = !!user; // converts Object to boolean
 
-
   async function login(email, password) {
-    const data = await loginUser(email, password)
+    const data = await loginUser(email, password);
     // Read the JSON
     const accessToken = data.accessToken;
     // Save the access token
     setAccessToken(accessToken);
     // Fetch user
     const currentUser = await fetchCurrentUser(accessToken);
-    
-    setUser(currentUser)
+
+    setUser(currentUser);
     return;
   }
 
   async function logout() {
-    await logoutUser()
+    await logoutUser();
     // Clear user
     setUser(null);
     // Clear accesToken
@@ -33,35 +37,21 @@ export const AuthProvider = ({ children }) => {
     return;
   }
 
-
-
   useEffect(() => {
     async function restoreSession() {
       try {
-        // Check if refresh token exists (by trying POST /users/token)
-        const tokenResponse = await fetch(`${API_URL}/users/token`, {
-          method: "POST",
-          credentials: "include", // For request that require refresh token
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        // User not logged in
-        if (tokenResponse.status === 401) {
+        const tokenResponse = await refreshAccessToken();
+        if (tokenResponse === null) {
           setUser(null);
           setAccessToken(null);
-          return;
+          return
         }
-        if (!tokenResponse.ok) {
-          throw new Error("Failed to get refresh token");
-        }
-        // Get new access token
-        // tokenResponse is a Response object that needs parsing
-        const newToken = await tokenResponse.json();
+
         // Save token
-        setAccessToken(newToken.accessToken);
+        setAccessToken(tokenResponse.accessToken);
         // Call /users/me
-        await fetchCurrentUser(newToken.accessToken);
+        const currentUser = await fetchCurrentUser(tokenResponse.accessToken);
+        setUser(currentUser);
       } catch (error) {
         setUser(null);
         setAccessToken(null);

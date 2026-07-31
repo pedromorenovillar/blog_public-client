@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getSinglePost } from "../api/posts";
+import { AuthContext } from "../context/AuthContext";
 
 function SinglePost() {
   const [post, setPost] = useState();
   const [error, setError] = useState(null);
+  const { user, isAuthenticated } = useContext(AuthContext);
 
   const { id } = useParams();
   useEffect(() => {
@@ -37,14 +39,23 @@ function SinglePost() {
       </div>
       <h3>{post.content}</h3>
       <h4>Comments</h4>
-      {post.comments.map((comment) => (
-        <div key={comment.id}>
-          <p>
-            {comment.author.firstname}: {comment.content} |{" "}
-            {new Date(comment.updatedAt).toLocaleDateString()}
-          </p>
-        </div>
-      ))}
+      {post.comments.length === 0 ? (
+        <p>This post has no comments.</p>
+      ) : (
+        post.comments.map((comment) => (
+          <div key={comment.id}>
+            <p>
+              {comment.author.firstname}: {comment.content} |{" "}
+              {new Date(comment.updatedAt).toLocaleDateString()}
+            </p>
+          </div>
+        ))
+      )}
+      {isAuthenticated ? (
+        <button>New comment</button>
+      ) : (
+        <button>Log in to comment</button>
+      )}
     </>
   );
 }

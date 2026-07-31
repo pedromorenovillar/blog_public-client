@@ -1,4 +1,3 @@
-// login(credentials)
 // logout()
 // refreshAccessToken() (POST /users/token)
 
@@ -36,3 +35,20 @@ export async function fetchCurrentUser(token) {
   return userData;
 }
 
+export async function loginUser(email, password) {
+  // Send the request
+  const loginResponse = await fetch(`${API_URL}/users/login`, {
+    method: "POST",
+    credentials: "include", // For request that require refresh token
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+  // loginResponse is a Response object that needs parsing
+  const data = await loginResponse.json();
+  if (!loginResponse.ok) {
+    throw data;
+  }
+  return data;
+}

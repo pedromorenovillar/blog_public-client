@@ -1,7 +1,7 @@
 import { AuthContext } from "./AuthContext";
 import { useEffect, useState } from "react";
 const API_URL = import.meta.env.VITE_API_URL;
-import { register, fetchCurrentUser } from "../api/auth";
+import { register, loginUser, fetchCurrentUser } from "../api/auth";
 
 // Accept children to wrap app and return them later
 export const AuthProvider = ({ children }) => {
@@ -11,23 +11,8 @@ export const AuthProvider = ({ children }) => {
   const isAuthenticated = !!user; // converts Object to boolean
 
 
-  
-
   async function login(email, password) {
-    // Send the request
-    const loginResponse = await fetch(`${API_URL}/users/login`, {
-      method: "POST",
-      credentials: "include", // For request that require refresh token
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    // loginResponse is a Response object that needs parsing
-    const data = await loginResponse.json();
-    if (!loginResponse.ok) {
-      throw data;
-    }
+    const data = await loginUser(email, password)
     // Read the JSON
     const accessToken = data.accessToken;
     // Save the access token

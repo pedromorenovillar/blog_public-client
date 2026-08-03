@@ -23,6 +23,14 @@ function SinglePost() {
     setPost(updatedPost);
   }
 
+  function handleEdit(postId) {
+    return
+  }
+  function handleDelete(postId) {
+    return
+  }
+  
+
   useEffect(() => {
     async function loadPost(id) {
       try {
@@ -60,7 +68,15 @@ function SinglePost() {
           <div key={comment.id}>
             <p>
               {comment.author.firstname}: {comment.content} |{" "}
-              {new Date(comment.updatedAt).toLocaleDateString()}
+              {new Date(comment.updatedAt).toLocaleDateString()} |
+              {comment.authorId === user.id && (
+                <div>
+                  <button onClick={() => handleEdit(comment.id)}>Edit</button>
+                  <button onClick={() => handleDelete(comment.id)}>
+                    Delete
+                  </button>
+                </div>
+              )}
             </p>
           </div>
         ))

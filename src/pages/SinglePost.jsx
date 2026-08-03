@@ -22,12 +22,11 @@ function SinglePost() {
     setPost(updatedPost);
   }
 
-  function handleEdit(commentId) {
-    console.log({ commentId });
-    return;
-  }
   async function handleDelete(commentId) {
     try {
+      if (!window.confirm("Delete this comment?")) {
+        return;
+      }
       await deleteComment(commentId, accessToken);
       await reloadPost();
     } catch (error) {
@@ -72,14 +71,9 @@ function SinglePost() {
           <div key={comment.id}>
             <p>
               {comment.author.firstname}: {comment.content} |{" "}
-              {new Date(comment.updatedAt).toLocaleDateString()} |
+              {new Date(comment.updatedAt).toLocaleDateString()}
               {isAuthenticated && comment.authorId === user.id && (
-                <span>
-                  <button onClick={() => handleEdit(comment.id)}>Edit</button>
-                  <button onClick={() => handleDelete(comment.id)}>
-                    Delete
-                  </button>
-                </span>
+                <button onClick={() => handleDelete(comment.id)}>Delete</button>
               )}
             </p>
           </div>

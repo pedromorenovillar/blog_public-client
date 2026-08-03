@@ -1,8 +1,8 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { addComment } from "../../api/comments";
 import { AuthContext } from "../../context/AuthContext";
 
-function CommentForm({ authorId, postId, onCommentCreated }) {
+function CommentForm({ postId, onCommentCreated }) {
   const [content, setContent] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -25,6 +25,7 @@ function CommentForm({ authorId, postId, onCommentCreated }) {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
+      setIsSending(true);
       await addComment(postId, content, accessToken);
       setContent("");
       await onCommentCreated();
@@ -35,6 +36,7 @@ function CommentForm({ authorId, postId, onCommentCreated }) {
         setErrors([{ msg: error.message }]);
       }
     }
+    setIsSending(false);
     return;
   }
 

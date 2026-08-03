@@ -24,8 +24,8 @@ function CommentForm({ postId, onCommentCreated }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setIsSending(true);
     try {
-      setIsSending(true);
       await addComment(postId, content, accessToken);
       setContent("");
       await onCommentCreated();
@@ -35,8 +35,9 @@ function CommentForm({ postId, onCommentCreated }) {
       } else {
         setErrors([{ msg: error.message }]);
       }
+    } finally {
+      setIsSending(false);
     }
-    setIsSending(false);
     return;
   }
 

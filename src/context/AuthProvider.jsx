@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     const currentUser = await fetchCurrentUser(accessToken);
 
     setUser(currentUser);
-    return;
+    return currentUser;
   }
 
   async function logout() {

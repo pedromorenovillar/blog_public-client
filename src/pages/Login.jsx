@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
+const ADMIN_URL = import.meta.env.VITE_ADMIN_URL;
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,9 +20,11 @@ function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      await login(email, password);
+      const loggedInUser = await login(email, password);
       if (location.state) {
         navigate(location.state);
+      } else if (loggedInUser.isAuthor) {
+        window.location.href = ADMIN_URL;
       } else {
         navigate("/");
       }

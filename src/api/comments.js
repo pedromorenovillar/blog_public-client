@@ -17,3 +17,18 @@ export async function addComment(postId, content, token) {
 
   return data;
 }
+export async function deleteComment(commentId, token) {
+  // No request body needed or content/type
+  const response = await fetch(`${API_URL}/comments/${commentId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw data;
+  }
+
+  return data;
+}

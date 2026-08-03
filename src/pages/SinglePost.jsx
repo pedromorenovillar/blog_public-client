@@ -1,20 +1,19 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { getSinglePost } from "../api/posts";
+import { deleteComment } from "../api/comments";
 import { AuthContext } from "../context/AuthContext";
 import CommentForm from "../components/common/CommentForm";
 
 function SinglePost() {
   const [post, setPost] = useState();
   const [error, setError] = useState(null);
-  const { user, isAuthenticated } = useContext(AuthContext);
+  const { user, isAuthenticated, accessToken } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-
   const { id } = useParams();
 
   function handleClick() {
-    console.log("button clicked");
     navigate("/users/login", { state: location });
   }
 
@@ -23,13 +22,18 @@ function SinglePost() {
     setPost(updatedPost);
   }
 
-  function handleEdit(postId) {
-    return
+  function handleEdit(commentId) {
+    console.log({ commentId });
+    return;
   }
-  function handleDelete(postId) {
-    return
+  async function handleDelete(commentId) {
+    try {
+      await deleteComment(commentId, accessToken);
+      await reloadPost();
+    } catch (error) {
+      setError(error.message);
+    }
   }
-  
 
   useEffect(() => {
     async function loadPost(id) {
@@ -69,13 +73,13 @@ function SinglePost() {
             <p>
               {comment.author.firstname}: {comment.content} |{" "}
               {new Date(comment.updatedAt).toLocaleDateString()} |
-              {comment.authorId === user.id && (
-                <div>
+              {isAuthenticated && comment.authorId === user.id && (
+                <span>
                   <button onClick={() => handleEdit(comment.id)}>Edit</button>
                   <button onClick={() => handleDelete(comment.id)}>
                     Delete
                   </button>
-                </div>
+                </span>
               )}
             </p>
           </div>

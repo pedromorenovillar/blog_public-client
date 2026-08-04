@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./NavigationBar.module.css";
+import { House, UserStar, Eye, LogOut, KeyRound, UserPen } from "lucide-react";
 
 function NavigationBar() {
   const { logout, isAuthenticated, user } = useContext(AuthContext);
@@ -19,17 +20,37 @@ function NavigationBar() {
 
   return (
     <div className={styles.navBar}>
-      <NavLink to="/">Home</NavLink>
-      <NavLink to="/posts/">View Blog</NavLink>
-      {user?.isAuthor && <a href={ADMIN_URL}>Dashboard</a>}
+      <NavLink to="/">
+        <House />
+        Home
+      </NavLink>
+      <NavLink to="/posts/">
+        <Eye />
+        View Blog
+      </NavLink>
+      {user?.isAuthor && (
+        <a href={ADMIN_URL}>
+          <UserStar />
+          Dashboard
+        </a>
+      )}
       {isAuthenticated ? (
         <>
-          <button onClick={handleLogout}>Logout</button>
+          <button onClick={handleLogout}>
+            <LogOut />
+            Logout
+          </button>
         </>
       ) : (
         <>
-          <NavLink to="/users/login">Login</NavLink>
-          <NavLink to="/users/register">Register</NavLink>
+          <NavLink to="/users/login">
+            <KeyRound />
+            Login
+          </NavLink>
+          <NavLink to="/users/register">
+            <UserPen />
+            Register
+          </NavLink>
         </>
       )}
     </div>

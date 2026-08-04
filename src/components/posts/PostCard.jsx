@@ -14,7 +14,7 @@ function PostCard({ post }) {
           {post.content.length > 50
             ? post.content.slice(0, 50) + "..."
             : post.content}{" "}
-          | {new Date(post.createdAt).toLocaleDateString()}
+          ({new Date(post.createdAt).toLocaleDateString()})
         </h3>
       </li>
     </>

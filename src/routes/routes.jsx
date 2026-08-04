@@ -2,7 +2,6 @@ import RootLayout from "../pages/RootLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import NewPost from "../pages/NewPost";
 import Posts from "../pages/Posts";
 import SinglePost from "../pages/SinglePost";
 
@@ -22,10 +21,6 @@ const routes = [
       {
         path: "users/register",
         element: <Register />,
-      },
-      {
-        path: "posts/new-post",
-        element: <NewPost />,
       },
       {
         path: "posts/",

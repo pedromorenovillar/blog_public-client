@@ -6,11 +6,17 @@ function Home() {
 
   return (
     <>
-      {isAuthenticated ? <h1>Hello, {user.firstname}</h1> : <h1>Home</h1>}
+      {isAuthenticated ? <h1>Hello, {user.firstname}!</h1> : <h1>Home</h1>}
       {user?.isAuthor ? (
         <>
-          As an author, you can manage your blog posts as well as add or delete
-          comments to other author's posts.
+          <p>
+            Welcome to the home page of the blog. Here you can view all
+            published posts.
+          </p>
+          <p>
+            As an author, you can manage your blog posts as well as add or
+            delete comments to other author's posts on the Dashboard.
+          </p>
         </>
       ) : (
         <>

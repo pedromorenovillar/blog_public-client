@@ -25,7 +25,6 @@ function Posts() {
   if (error) {
     return <p>{error}</p>;
   }
-  console.log(posts);
   return (
     <>
       <h1>Posts</h1>

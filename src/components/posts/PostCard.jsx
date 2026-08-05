@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"; // <- Client side nav without reloading
 
 function PostCard({ post }) {
-  console.log(post);
   return (
     <>
       <li>

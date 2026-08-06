@@ -13,12 +13,12 @@ function PostCard({ post }) {
               {new Date(post.createdAt).toLocaleDateString()})
             </span>
           </h2>
+          <div>
+            {post.content.length > 50
+              ? post.content.slice(0, 50) + "..."
+              : post.content}
+          </div>
         </Link>
-        <h3>
-          {post.content.length > 50
-            ? post.content.slice(0, 50) + "..."
-            : post.content}
-        </h3>
       </li>
     </>
   );

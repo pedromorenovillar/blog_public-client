@@ -2,6 +2,12 @@
   list-style: none;
   width: 60dvw;
   padding: 2rem 0rem;
+  border-bottom: 1px solid black;
+}
+
+.PostCard > a {
+  text-decoration: none;
+  color: black;
 }
 
 .PostCard > a > h2 > span {

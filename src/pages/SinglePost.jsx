@@ -63,6 +63,7 @@ function SinglePost() {
         by {post.author.firstname} {post.author.lastname}
       </div>
       <h3>{post.content}</h3>
+      <hr />
       <h4>Comments</h4>
       {post.comments.length === 0 ? (
         <p>This post has no comments.</p>

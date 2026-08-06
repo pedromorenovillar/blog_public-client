@@ -50,12 +50,12 @@ function CommentForm({ postId, onCommentCreated }) {
           name="content"
           id="content"
           cols="30"
-          rows="10"
+          rows="5"
           value={content}
           onChange={handleChange}
         ></textarea>
         <button type="submit" disabled={isSending}>
-          Send
+          Add comment
         </button>
       </form>
     </>

@@ -59,6 +59,7 @@ function Register() {
           id="firstName"
           value={user.firstName}
           onChange={handleUser}
+          autoComplete="firstName"
         />
         {fieldErrors.firstName && <p>{fieldErrors.firstName}</p>}
         <label htmlFor="lastName">Last name</label>
@@ -68,6 +69,7 @@ function Register() {
           id="lastName"
           value={user.lastName}
           onChange={handleUser}
+          autoComplete="lastName"
         />
         {fieldErrors.lastName && <p>{fieldErrors.lastName}</p>}
         <label htmlFor="email">Email</label>
@@ -77,6 +79,7 @@ function Register() {
           id="email"
           value={user.email}
           onChange={handleUser}
+          autoComplete="email"
         />
         {fieldErrors.email && <p>{fieldErrors.email}</p>}
         <label htmlFor="password">Password</label>
@@ -86,6 +89,7 @@ function Register() {
           id="password"
           value={user.password}
           onChange={handleUser}
+          autoComplete="password"
         />
         {fieldErrors.password && <p>{fieldErrors.password}</p>}
         <label htmlFor="passwordConfirm">Password confirmation</label>
@@ -95,6 +99,7 @@ function Register() {
           id="passwordConfirm"
           value={user.passwordConfirm}
           onChange={handleUser}
+          autoComplete="password"
         />
         {fieldErrors.passwordConfirm && <p>{fieldErrors.passwordConfirm}</p>}
         <button type="submit">Submit</button>

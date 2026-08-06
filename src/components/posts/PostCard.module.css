@@ -1,0 +1,9 @@
+.PostCard {
+  list-style: none;
+  width: 60dvw;
+  padding: 2rem 0rem;
+}
+
+.PostCard > a > h2 > span {
+  font-size: medium;
+}

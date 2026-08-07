@@ -1,0 +1,12 @@
+.SinglePost {
+  /* outline: 1px solid red; */
+  padding: 1rem;
+}
+
+.PostContent {
+  width: 60dvw;
+  outline: 1px solid black;
+  padding: 2rem 1rem;
+  margin: 3rem 0;
+  background-color: rgba(245, 245, 245, 0.408);
+}

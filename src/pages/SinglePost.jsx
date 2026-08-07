@@ -4,6 +4,7 @@ import { getSinglePost } from "../api/posts";
 import { deleteComment } from "../api/comments";
 import { AuthContext } from "../context/AuthContext";
 import CommentForm from "../components/common/CommentForm";
+import styles from "./SinglePost.module.css";
 
 function SinglePost() {
   const [post, setPost] = useState();
@@ -55,14 +56,14 @@ function SinglePost() {
     return <p>Loading...</p>;
   }
   return (
-    <>
+    <div className={styles.SinglePost}>
       <h2>
         {post.title} | {new Date(post.createdAt).toLocaleDateString()}
       </h2>
       <div>
         by {post.author.firstname} {post.author.lastname}
       </div>
-      <h3>{post.content}</h3>
+      <div className={styles.PostContent}>{post.content}</div>
       <hr />
       <h4>Comments</h4>
       {post.comments.length === 0 ? (
@@ -85,7 +86,7 @@ function SinglePost() {
       ) : (
         <button onClick={handleClick}>Log in to comment</button>
       )}
-    </>
+    </div>
   );
 }
 

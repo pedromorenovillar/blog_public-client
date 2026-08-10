@@ -56,7 +56,7 @@ function SinglePost() {
     return <p>Loading...</p>;
   }
   return (
-    <div className={styles.SinglePost}>
+    <div className={`${styles.SinglePost} MainContent`}>
       <h2>
         {post.title} | {new Date(post.createdAt).toLocaleDateString()}
       </h2>

@@ -5,7 +5,7 @@ function Home() {
   const { user, isAuthenticated } = useContext(AuthContext);
 
   return (
-    <>
+    <div className="MainContent">
       {isAuthenticated ? <h1>Hello, {user.firstname}!</h1> : <h1>Home</h1>}
       {user?.isAuthor ? (
         <>
@@ -28,7 +28,7 @@ function Home() {
           </p>
         </>
       )}
-    </>
+    </div>
   );
 }
 

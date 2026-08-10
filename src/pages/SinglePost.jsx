@@ -5,6 +5,7 @@ import { deleteComment } from "../api/comments";
 import { AuthContext } from "../context/AuthContext";
 import CommentForm from "../components/common/CommentForm";
 import styles from "./SinglePost.module.css";
+import Spinner from "../components/common/Spinner";
 
 function SinglePost() {
   const [post, setPost] = useState();
@@ -13,6 +14,7 @@ function SinglePost() {
   const navigate = useNavigate();
   const location = useLocation();
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
 
   function handleClick() {
     navigate("/users/login", { state: location });
@@ -43,6 +45,8 @@ function SinglePost() {
         document.title = post.title;
       } catch (error) {
         setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadPost(id);
@@ -52,8 +56,8 @@ function SinglePost() {
     return <p>{error}</p>;
   }
 
-  if (!post) {
-    return <p>Loading...</p>;
+  if (isLoading) {
+    return <Spinner />;
   }
   return (
     <div className={`${styles.SinglePost} MainContent`}>
@@ -84,7 +88,9 @@ function SinglePost() {
       {isAuthenticated ? (
         <CommentForm postId={post.id} onCommentCreated={reloadPost} />
       ) : (
-        <button onClick={handleClick} className={styles.LogInBtn}>Log in to comment</button>
+        <button onClick={handleClick} className={styles.LogInBtn}>
+          Log in to comment
+        </button>
       )}
     </div>
   );

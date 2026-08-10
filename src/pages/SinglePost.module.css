@@ -1,4 +1,6 @@
-@import "../styles/variables.css" .SinglePost {
+@import "../styles/variables.css";
+
+.SinglePost {
   padding: 1rem;
 }
 

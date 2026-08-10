@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getPublishedPosts } from "../api/posts";
 import PostCard from "../components/posts/PostCard";
+import Spinner from "../components/common/Spinner";
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -30,7 +31,7 @@ function Posts() {
       <h1>Posts</h1>
 
       {loading ? (
-        <p>Loading...</p>
+        <Spinner size={100} />
       ) : (
         <ul>
           {posts.map((post) => (

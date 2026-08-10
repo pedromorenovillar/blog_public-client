@@ -57,7 +57,7 @@ function SinglePost() {
   }
 
   if (isLoading) {
-    return <Spinner />;
+    return <Spinner size={60} />;
   }
   return (
     <div className={`${styles.SinglePost} MainContent`}>

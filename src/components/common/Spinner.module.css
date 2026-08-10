@@ -1,3 +1,5 @@
+@import "../../styles/variables.css";
+
 .spinnerContainer {
   display: flex;
   justify-content: center;
@@ -6,6 +8,7 @@
 }
 
 .spinner {
+  color: var(--background-color);
   animation: spin 1s linear infinite;
 }
 

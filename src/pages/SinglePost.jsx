@@ -74,14 +74,12 @@ function SinglePost() {
         <p>This post has no comments.</p>
       ) : (
         post.comments.map((comment) => (
-          <div key={comment.id}>
-            <p>
-              {comment.author.firstname}: {comment.content} |{" "}
-              {new Date(comment.updatedAt).toLocaleDateString()}
-              {isAuthenticated && comment.authorId === user.id && (
-                <button onClick={() => handleDelete(comment.id)}>Delete</button>
-              )}
-            </p>
+          <div key={comment.id} className={styles.Comment}>
+            {comment.author.firstname}: {comment.content} |{" "}
+            {new Date(comment.updatedAt).toLocaleDateString()}
+            {isAuthenticated && comment.authorId === user.id && (
+              <button onClick={() => handleDelete(comment.id)}>Delete</button>
+            )}
           </div>
         ))
       )}

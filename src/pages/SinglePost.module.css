@@ -11,7 +11,8 @@
   background-color: rgba(245, 245, 245, 0.408);
 }
 
-.LogInBtn {
+.LogInBtn,
+.Comment > button {
   padding: 1rem;
   background-color: var(--unpublished-color);
   color: whitesmoke;
@@ -22,5 +23,20 @@
 
 .LogInBtn:hover {
   background-color: var(--background-color);
+  color: black;
+}
+
+.Comment {
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.Comment > button {
+  margin-left: 2rem;
+}
+.Comment > button:hover {
+  background-color: red;
   color: black;
 }

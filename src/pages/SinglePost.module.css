@@ -1,4 +1,4 @@
-.SinglePost {
+@import "../styles/variables.css" .SinglePost {
   padding: 1rem;
 }
 
@@ -9,4 +9,16 @@
   background-color: rgba(245, 245, 245, 0.408);
 }
 
+.LogInBtn {
+  padding: 1rem;
+  background-color: var(--unpublished-color);
+  color: whitesmoke;
+  transition: 0.3s ease-in-out;
+  border-radius: 5px;
+  border: 1px solid white;
+}
 
+.LogInBtn:hover {
+  background-color: var(--background-color);
+  color: black;
+}

@@ -84,7 +84,7 @@ function SinglePost() {
       {isAuthenticated ? (
         <CommentForm postId={post.id} onCommentCreated={reloadPost} />
       ) : (
-        <button onClick={handleClick}>Log in to comment</button>
+        <button onClick={handleClick} className={styles.LogInBtn}>Log in to comment</button>
       )}
     </div>
   );

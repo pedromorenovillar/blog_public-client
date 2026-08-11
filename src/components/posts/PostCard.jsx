@@ -2,6 +2,11 @@ import { Link } from "react-router-dom"; // <- Client side nav without reloading
 import styles from "./PostCard.module.css";
 
 function PostCard({ post }) {
+  const dateOptions = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  };
   return (
     <>
       <li className={styles.PostCard}>
@@ -10,7 +15,11 @@ function PostCard({ post }) {
             {post.title} |
             <span>
               {post.author.firstname} {post.author.lastname} (
-              {new Date(post.createdAt).toLocaleDateString()})
+              {new Date(post.createdAt).toLocaleDateString(
+                "en-GB",
+                dateOptions,
+              )}
+              )
             </span>
           </h2>
           <div>

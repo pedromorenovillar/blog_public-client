@@ -15,6 +15,11 @@ function SinglePost() {
   const location = useLocation();
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const dateOptions = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  };
 
   function handleClick() {
     navigate("/users/login", { state: location });
@@ -62,7 +67,8 @@ function SinglePost() {
   return (
     <div className={`${styles.SinglePost} MainContent`}>
       <h2>
-        {post.title} | {new Date(post.createdAt).toLocaleDateString()}
+        {post.title} |{" "}
+        {new Date(post.createdAt).toLocaleDateString("en-GB", dateOptions)}
       </h2>
       <div>
         by {post.author.firstname} {post.author.lastname}
@@ -76,7 +82,10 @@ function SinglePost() {
         post.comments.map((comment) => (
           <div key={comment.id} className={styles.Comment}>
             {comment.author.firstname}: {comment.content} |{" "}
-            {new Date(comment.updatedAt).toLocaleDateString()}
+            {new Date(comment.updatedAt).toLocaleDateString(
+              "en-GB",
+              dateOptions,
+            )}
             {isAuthenticated && comment.authorId === user.id && (
               <button onClick={() => handleDelete(comment.id)}>Delete</button>
             )}

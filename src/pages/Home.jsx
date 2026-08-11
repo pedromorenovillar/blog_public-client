@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import styles from "./Home.module.css";
 
 function Home() {
   const { user, isAuthenticated } = useContext(AuthContext);
@@ -17,22 +18,20 @@ function Home() {
             As an author, you can manage your blog posts as well as add or
             delete comments to other author's posts on the Dashboard.
           </p>
-          <p>Registered users that are not authors can comment on published posts, while anonymous users can only read them.</p>
+          <p>
+            Registered users that are not authors can comment on published
+            posts, while anonymous users can only read them.
+          </p>
         </>
       ) : (
         <>
-          <h2>
-            This blog has three types of users:
-          </h2>
-          <ul>
+          <h2>This blog has three types of users</h2>
+          <ul style={styles.HomeList}>
+            <li>Anonymous users can only read published posts.</li>
+            <li>Registered users can read published posts and comment them.</li>
             <li>
-              Anonymous users can only read published posts.
-            </li>
-            <li>
-              Registered users can read published posts and comment them.
-            </li>
-            <li>
-              Authors can create, edit and delete posts, as well as publish or unpublish them from their admin dashboard.
+              Authors can create, edit and delete posts, as well as publish or
+              unpublish them from their admin dashboard.
             </li>
           </ul>
         </>

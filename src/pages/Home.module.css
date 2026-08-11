@@ -1,0 +1,6 @@
+.HomeList {
+  list-style-type: decimal;
+  height: 10rem;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}

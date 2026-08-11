@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
         if (tokenResponse === null) {
           setUser(null);
           setAccessToken(null);
-          return
+          return;
         }
 
         // Save token

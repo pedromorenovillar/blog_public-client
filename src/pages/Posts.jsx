@@ -41,6 +41,7 @@ function Posts() {
           ))}
         </ul>
       )}
+      {posts.length === 0 && <h2>There are no published blog posts.</h2>}
     </>
   );
 }

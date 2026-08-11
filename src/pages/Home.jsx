@@ -26,7 +26,7 @@ function Home() {
       ) : (
         <>
           <h2>This blog has three types of users</h2>
-          <ul style={styles.HomeList}>
+          <ul className={styles.HomeList}>
             <li>Anonymous users can only read published posts.</li>
             <li>Registered users can read published posts and comment them.</li>
             <li>
